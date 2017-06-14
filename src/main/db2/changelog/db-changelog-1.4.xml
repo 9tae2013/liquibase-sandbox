@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="1.4_1 insert employee" author="piya.l">
+        <sql>INSERT INTO EMPLOYEE (ID, EMP_NAME, DEPT) VALUES(1, 'User2', 1)</sql>
+        <rollback>DELETE FROM EMPLOYEE WHERE ID = 1</rollback>
+    </changeSet>
+
+    <changeSet id="tag-1.4" author="piya.l">
+        <tagDatabase tag="1.4"/>
+    </changeSet>
+
+</databaseChangeLog>

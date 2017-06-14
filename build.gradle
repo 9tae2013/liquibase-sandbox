@@ -1,0 +1,39 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.liquibase:liquibase-core:3.5.1'
+        classpath "org.liquibase:liquibase-gradle-plugin:1.2.4"
+        classpath 'org.apache.derby:derbyclient:10.13.1.1'
+    }
+}
+
+apply plugin: 'liquibase'
+
+
+liquibase {
+    activities {
+        main {
+            changeLogFile "$projectDir/src/main/db2/db-changelog-master.xml"
+            defaultsFile "$projectDir/db.properties"
+        }
+    }
+    runList = 'main'
+}
+
+
+configurations {
+    derby
+}
+
+dependencies {
+    derby 'org.apache.derby:derbynet:10.13.1.1'
+}
+
+task startDerby(type: JavaExec) {
+    classpath = configurations.derby
+    main = 'org.apache.derby.drda.NetworkServerControl'
+    args = ["start", "-noSecurityManager", "-h", "0.0.0.0"]
+}
