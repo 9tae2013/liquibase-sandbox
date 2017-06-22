@@ -36,7 +36,7 @@ task change {
         liquibase {
             activities {
                 main {
-                    changeLogFile "aaa.xml"
+                    changeLogFile "changelog-schema-out.xml"
 
                     url 'jdbc:derby://localhost:1527/memory:test2;create=true'
                     username 'sa'
