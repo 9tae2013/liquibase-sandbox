@@ -12,17 +12,46 @@ buildscript {
 
 apply plugin: 'liquibase'
 
+def changeLog = "$projectDir/src/main/db2/db-changelog-master.xml"
+def dbProperty = "$projectDir/db.properties"
 
-liquibase {
-    activities {
-        main {
-            changeLogFile "$projectDir/src/main/db2/db-changelog-master.xml"
-            defaultsFile "$projectDir/db.properties"
+task develop {
+    doLast {
+        println("Environment develop")
+        liquibase {
+            activities {
+                main {
+                    changeLogFile changeLog
+                    defaultsFile dbProperty
+                }
+            }
+            runList = 'main'
         }
     }
-    runList = 'main'
 }
 
+task change {
+    doLast {
+        println("Environment change")
+        liquibase {
+            activities {
+                main {
+                    changeLogFile "aaa.xml"
+
+                    url 'jdbc:derby://localhost:1527/memory:test2;create=true'
+                    username 'sa'
+                    password 'sa'
+                    defaultSchemaName 'sa'
+
+                    referenceUrl 'jdbc:derby://localhost:1527/memory:test;create=true'
+                    referenceUsername 'sa'
+                    referencePassword 'sa'
+                    referenceDefaultSchemaName 'sa'
+                }
+            }
+        }
+    }
+}
 
 configurations {
     derby
